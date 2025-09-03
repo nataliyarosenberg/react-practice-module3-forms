@@ -1,60 +1,32 @@
-import { useState } from 'react';
-import type { Votes, VoteType } from "../../types/votes";
 import css from './App.module.css';
-import CafeInfo from '../CafeInfo/CafeInfo';
-import VoteOptions from '../VoteOptions/VoteOptions';
-import VoteStats from '../VoteStats/VoteStats';
-import Notification from '../Notification/Notification';
+import OrderForm from '../OrderForm/OrderForm';
 
-
-
-const initialVotes: Votes = {
-  good: 0,
-  neutral: 0,
-  bad: 0,
-};
 
 export default function App() {
-  const [votes, setVotes] = useState<Votes>(initialVotes);
 
-  const handleVote = (voteType: VoteType) => {
-    setVotes(prevVotes => ({
-      ...prevVotes,
-      [voteType]: prevVotes[voteType] + 1,
-    }));
+  // const handleSubmit = (formData: FormData) => {
+  const handleOrder = (data: string) => {
+    console.log("Order received from:", data);
+
+    
+//     const username = formData.get("username") as string;
+//     console.log("Name:", username);
+//     if (username !== "") {
+//       alert("Submited");
+//     } else {
+//       alert("Please fill out the field");
+// }
   };
 
-  const resetVotes = () => {
-    setVotes(initialVotes);
-  };
-
-  const totalVotes = votes.good + votes.neutral + votes.bad;
-  const positiveRate = totalVotes
-    ? Math.round((votes.good / totalVotes) * 100)
-    : 0;
-  const canReset = totalVotes > 0;
-
+ 
   return (
     <>
-      <div className={css.app}>
-        <CafeInfo />
-        <VoteOptions
-          onVote={handleVote}
-          onReset={resetVotes}
-          canReset={canReset}
-        />
-        {totalVotes > 0 ? (
-          <VoteStats
-            votes={votes}
-            totalVotes={totalVotes}
-            positiveRate={positiveRate}
-          />
-        ) : (
-          <Notification />
-        )}
-      </div>
+      <h1>Place your order</h1>
+      <OrderForm onSubmit={handleOrder}></OrderForm>
     </>
+    // <form className={css.form } action={handleSubmit}>
+    //   <input type="text" name="username" placeholder='Username'/>
+    //   <button className={css.button } type="submit">Submit</button>
+    // </form>
   );
 }
-
-
